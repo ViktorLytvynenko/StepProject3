@@ -1,0 +1,156 @@
+.cardModal {
+    display: none;
+    position: fixed;
+    width: 40%;
+    height: auto;
+    left: 30%;
+    right: 30%;
+    top: 30%;
+    padding: 25px;
+    background: #FFF;
+    border:2px solid #c4c4c4;
+    border-radius: 10px;
+}
+.card-title{
+    text-align: center;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.card-params {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+}
+
+.params-item{
+    border-bottom: 1px solid #c4c4c4;
+}
+
+.params-text {
+color: #333;
+}
+
+.params-title {
+    font-weight: 600;
+    color: #000;
+    
+
+}
+
+.cardExit{
+    display: block;
+    width: 150px;
+    height: 35px;
+    margin: 15px auto 0px auto;
+
+}
+
+.cardEdit {
+    position: fixed;
+    display: none;
+    width: 40%;
+    height: auto;
+    left: 30%;
+    right: 30%;
+    top: 30%;
+    padding: 25px;
+    background: #FFF;
+    border:2px solid #c4c4c4;
+    border-radius: 10px;
+}
+
+.sectionContainer{
+    display: flex;
+    justify-content: center;
+    column-gap: 15px;
+    margin-top: 20px;
+}
+.paragrafCardEdit {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 700;
+    
+}
+.editList {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+}
+.editItem {
+    width: 70%;
+    margin: 0 auto;   
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.editParam{
+    width: 10%;
+}
+.editInput{
+    margin-left: 5%;
+    width: 65%;
+}
+.editBtns {
+    margin:20px 0;
+    display:flex;
+    justify-content: center;
+    column-gap: 30px;
+}
+
+.editBtn {
+    width: 150px;
+    height: 35px;
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    color: #FFF;
+}
+.editCancel{
+    background: #005FEC;
+}
+.editSave {
+    background: #00ECD0;
+  
+}
+
+.cardCreate {
+    position: fixed;
+    display: none;
+    flex-direction: column;
+    row-gap: 25px;
+    width: 40%;
+    height: auto;
+    left: 30%;
+    right: 30%;
+    top: 30%;
+    padding: 25px;
+    background: #FFF;
+    border:2px solid #c4c4c4;
+    border-radius: 10px;
+}
+.createTitle{
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+}
+.selectCreate{
+    display: block;
+    margin:0 auto;
+}
+.createBtns{ 
+    display: flex;
+    justify-content: center;
+    column-gap: 20px;
+    &_item{
+        width: 150px;
+        height: 35px;
+        cursor: pointer;
+        border: none;
+        border-radius: 8px;
+        color: #FFF;
+    }
+}

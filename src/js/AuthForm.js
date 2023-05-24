@@ -2,6 +2,10 @@ import Modal from "bootstrap/js/src/modal"
 import instance from "./Assets/axiosInstances";
 import {setStorage, getStorage} from "./localStorage";
 import {Notify} from 'notiflix/build/notiflix-notify-aio';
+import openCard from './openCard'
+import editCard from './editer'
+import createCard from "./createCard";
+import filter from "./filter";
 
 const buttonAuth = document.querySelector("#buttonAuth");
 const modalWindow = document.querySelector("#exampleModal");
@@ -11,7 +15,7 @@ const privatePolicy = document.querySelector("#privatePolicy");
 const agree = document.querySelector("#agree");
 const disagree = document.querySelector("#disagree");
 const newCard = document.querySelector("#newCard");
-
+//openCard();
 
 // возвращение на первый шаг
 const firstStep = () => {
@@ -138,7 +142,7 @@ buttonAuth.addEventListener("click", () => {
         email: form.email.value,
         password: form.password.value
     }
-    if (person.email.length != 0 || person.password.length != 0) {
+    if (person.email.length != 0 && person.password.length != 0) {
         privatePolicy.style.display = "block";
         const modal = Modal.getInstance(modalWindow);
         modal.hide();
@@ -158,10 +162,13 @@ const gettingData = () => {
         }
     }).then(res => {
         console.log(res.data)
+        filter()
         if (res.data.length > 0) {
+            //    Chenge button authentication
             logInButton.innerHTML = `<p class="header_right_cabinet">Доброго дня!</p>
             <button class="header_right_exitButton" button-exit>Вийти</button>`
             document.querySelector("button[button-exit]").onclick = exitButton
+            //
             records.innerHTML = `
             ${createRecordsButton()}
             <p class="header_center_table_title">Список Ваших записів</p>
@@ -185,8 +192,8 @@ const gettingData = () => {
                         <td>${card.doctor}</td>
                         <td>${card.description}</td>
                         <td>
-                            <button class="btn btn-info"><i style="color: white" class="fa-solid fa-expand"></i></button>
-                            <button class="btn btn-warning"><i style="color: white" class="fa-solid fa-pen-to-square"></i></button>
+                            <button class="btn btn-info btnOpenCard" data-id="${card.id}"><i style="color: white" class="fa-solid fa-expand"></i></button>
+                            <button class="btn btn-warning btnEditCard" data-id="${card.id}"><i style="color: white" class="fa-solid fa-pen-to-square"></i></button>
                             <button id="btnDelete" class="btn btn-danger" data-id="${card.id}"><i style="color: white" class="fa-solid fa-x"></i></button>
                         </td>
                     </tr>
@@ -211,14 +218,27 @@ const gettingData = () => {
                     })
                 })
             })
+            const btnsEdit = document.querySelectorAll('.btnEditCard');
+            btnsEdit.forEach((el) => {
+                el.addEventListener('click', () => {
+                let cardId = el.getAttribute('data-id');
+                    editCard(cardId)
+                })
+            })
+            const btnsOpen = document.querySelectorAll('.btnOpenCard');
+            btnsOpen.forEach((btnItem) => {
+                btnItem.addEventListener('click', () => {
+                    let cardId = btnItem.getAttribute('data-id');
+                    openCard(cardId);
+                })
+            })
 
         } else {
             records.innerHTML += `${createRecordsButton()}`
         }
         let btnCreate = document.querySelector('#recordsButton')
         btnCreate.addEventListener('click', () => {
-            newCard.style.display = "block";
-            document.body.style.backgroundColor = "#efefef";
+            createCard()
         })
     })
 }
@@ -357,4 +377,6 @@ form.email.value = getStorage("email")
 form.password.value = getStorage("password");
 
 
-
+/**
+ * *jkcdcjn
+ */

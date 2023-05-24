@@ -56,19 +56,19 @@
     </div>
     <div class="header_center">
         <div class="header_center_search">
-            <input class="header_center_search_input" placeholder="Пошук за заголовком" type="text">
-            <select class="header_center_search_select">
+            <input id="filterTitle" class="header_center_search_input" placehoder="Пошук за заголовком" type="text">
+            <select id="filterStatus" class="header_center_search_select">
                 <option disabled selected>Пошук по статусу</option>
                 <option>Відкрит</option>
                 <option>Закрит</option>
             </select>
-            <select class="header_center_search_select">
+            <select id="filterTime" class="header_center_search_select">
                 <option disabled selected>Терміновість візиту</option>
                 <option>Короткий запис</option>
                 <option>Звичайний запис</option>
                 <option>Тривалий запис</option>
             </select>
-            <button class="header_center_search_button">Пошук</button>
+            <button id="filterBtn" class="header_center_search_button">Пошук</button>
         </div>
         <div id="records" class="header_center_table">
             <img id="notFoundImage" src="./dist/img/background.jpg" alt="not found" title="not found">
@@ -328,7 +328,16 @@
 <div class="gifka" id="gifka">
     <img src="./dist/img/giphy.gif" alt="Hi" class="gifka_img">
 </div>
-
+<div class="cardModal">
+    
+</div>
+<div class="cardEdit">
+    
+</div>
+<div class="cardCreate">
+   
+   
+</div>
 <script src="https://kit.fontawesome.com/6cc4f2107e.js" crossorigin="anonymous"></script>
 <script src="./dist/bundle.js"></script>
 </body>
