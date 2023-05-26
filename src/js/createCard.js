@@ -21,27 +21,79 @@ const postNewCard = () =>{
             }
         })
 }
-
-const stemForm = () => {
+const setCardiologist = () => `
+    <li class="editItem">
+        <p class="editParam">Протипоказання</p>
+        <input id="form" class="editInput" type="text" formName="contraindication" placeholder="Напишіть протипоказання">
+    </li>
+    <li class="editItem">
+        <p class="editParam">Дата останнього візиту</p>
+        <input id="formTitle" class="editInput" type="date" formName="lastVisit" >
+    </li>
+`
+const setStomatolog = () => ` 
+    <li class="editItem">
+        <p class="editParam">Номер телефону</p>
+        <input id="form" class="editInput" type="text" formName="phoneNumber" placeholder="Напишіть ваш номер телефону">
+    </li>
+    <li class="editItem">
+        <p class="editParam">Номер страхової картки</p>
+        <input id="form" class="editInput" type="text" formName="insurance" placeholder="Напишіть номер строхової картки">
+    </li>
+`
+const setTerapevt = () => `
+    <li class="editItem">
+        <p class="editParam">Адрес</p>
+        <input id="form" class="editInput" type="text" formName="address" placeholder="Напишіть ваш адрес проживання">
+    </li>
+    <li class="editItem">
+        <p class="editParam">Висновок</p>
+        <input id="form" class="editInput" type="text" formName="conclusion" placeholder="Напишіть висновок">
+    </li>
+`
+const stemForm = (doctor) => {
+    let doctorForm 
+    switch (doctor) {
+        case 'cardiologist':
+            doctorForm = setCardiologist()
+            break;
+        case 'stomatolog': 
+            doctorForm = setStomatolog()
+            break;
+        case 'terapevt': 
+            doctorForm = setTerapevt()
+            break;
+        default:
+            doctorForm = '';
+    }
     modal.innerHTML = `
     <p class="createTitle">Заповнення форми</p>
     <div class="cardCreate_body">
     <ul class="editList">
+       
         <li class="editItem">
-            <p class="editParam">Title</p>
-            <input id="formTitle" class="editInput" type="text"  placeholder="Напишіть назву візиту">
+            <p class="editParam">Назва</p>
+            <input id="formTitle" class="editInput" type="text" formName="title" placeholder="Напишіть назву візиту">
         </li>
         <li class="editItem">
-            <p class="editParam">Age</p>
-            <input id="formAge" class="editInput" type="text"  placeholder="Напишіть вік">
+            <p class="editParam">ПІБ</p>
+            <input id="formTitle" class="editInput" type="text" formName="name" placeholder="Напишіть ПІБ">
+        </li>
+        ${doctorForm}
+        <li class="editItem">
+            <p class="editParam">Вік</p>
+            <input id="formAge" class="editInput" type="text" formName="age" placeholder="Напишіть вік">
         </li>
         <li class="editItem">
-            <p class="editParam">Weight</p>
-            <input id="formWeight" class="editInput" type="text" placeholder="Напишіть вагу">
+            <p class="editParam">Вага</p>
+            <input id="formWeight" class="editInput" type="text" formName="weight" placeholder="Напишіть вагу">
         </li>
         <li class="editItem">
             <p class="editParam">BP</p>
-            <input id="formBp" class="editInput" type="text" placeholder="Напишіть тиск">
+            <input id="formBp" class="editInput" type="text" formName="bp" placeholder="Напишіть тиск">
+        </li>
+        <li class="editItem">
+            <textarea id="formTitle" class="editInput" type="text" formName="description" placeholder="Напишіть опис візиту"></textarea>
         </li>
     </ul>
     </div>
@@ -56,36 +108,20 @@ const stemForm = () => {
     })
     const btnSaveCard = document.querySelector('#btnSaveCard')
     btnSaveCard.addEventListener('click', () =>{
-        const formEl = { 
-            title: document.querySelector('#formTitle'),
-            age: document.querySelector('#formAge'),
-            weight : document.querySelector('#formWeight'),
-            bp: document.querySelector('#formBp')
-        }
-        const formData = {
-            title: formEl.title.value,
-            age: formEl.age.value,
-            weight: formEl.weight.value,
-            bp: formEl.bp.value
-        }
+        const formArr = document.querySelectorAll('.editInput')
         let newCard = JSON.parse(localStorage.getItem('newCard'))
         newCard = {
-            ...newCard,
-            ...formData
+            ...newCard
         }
-        localStorage.setItem('newCard', JSON.stringify(newCard))
-        if (
-            formData.title.length !=0 &&
-            formData.age.length !=0 &&
-            formData.weight.length !=0 &&
-            formData.bp.length !=0
-            ){
-                postNewCard()
-            } else { 
-                Notify.warning("Помилка, ви не заповнили поля")
+        formArr.forEach((el)=>{ 
+            newCard = { 
+                ...newCard, 
+                [el.getAttribute('formName')]: el.value ? el.value : 'не заповнено'
             }
-        
-    })
+        })
+        localStorage.setItem('newCard', JSON.stringify(newCard))
+        postNewCard()
+        })
 }
 
 const stepSelectTime = () =>{
@@ -93,8 +129,8 @@ const stepSelectTime = () =>{
     <p class="createTitle">Вибір часу</p>
     <div class="cardCreate_body">
     <select id="changeTime" class="selectCreate selectItem">
-            <option disabled selected>Терміновість візиту</option>
-                <option>Короткий запис</option>
+            <option disabledТерміновість візиту</option>
+                <option selected>Короткий запис</option>
                 <option>Звичайний запис</option>
                 <option>Тривалий запис</option>
     </select>
@@ -117,7 +153,7 @@ const stepSelectTime = () =>{
             time: selectTime.value
         }
         localStorage.setItem('newCard', JSON.stringify(newCard))
-        stemForm()
+        stemForm(newCard.doctor)
     })
 } 
 const createCard = () => { 
@@ -127,8 +163,8 @@ const createCard = () => {
     <p class="createTitle">Створити новий запис</p>
     <div class="cardCreate_body">
     <select id="changeDoctor" class="selectCreate selectItem">
-        <option disabled  value="none">Зробіть свій вибір</option>
-        <option value="Cardiologist">Кардіолог</option>
+        <option disabled value="none">Зробіть свій вибір</option>
+        <option selected value="cardiologist">Кардіолог</option>
         <option value="stomatolog">Стоматолог</option>
         <option value="terapevt">Терапевт</option>
     </select>

@@ -12,31 +12,19 @@ const openCard = (cardId) => {
     .then((res) => {
       console.log(res.data);
       modelWindow.style.display = "block";
+      let infoHTML = ''
+      Object.entries(res.data).forEach(([name, value]) => {
+        infoHTML += `
+        <li class="params-item">
+            <p class="params-text"><span class="params-title">${name}:</span>${value}</p>
+        </li>
+        `
+      });
+      console.log(infoHTML)
       modelWindow.innerHTML = `
       <h2 class="card-title">Картка пацієнта</h2>
         <ul class="card-params">
-            <li class="params-item">
-                <p class="params-text"><span class="params-title">Id:</span>${res.data.id}</p>
-            </li>
-            <li class="params-item">
-                <p class="params-text"><span class="params-title">Doctor:</span>${res.data.doctor}</p>
-            </li>
-            <li class="params-item">
-                <p class="params-text"><span class="params-title">Description:</span>${res.data.description}</p>
-            </li>
-            <li class="params-item">
-                <p class="params-text"><span class="params-title">Title:</span>${res.data.title}</p>
-            </li>
-            <li class="params-item">
-                <p class="params-text"><span class="params-title">Age:</span>${res.data.age}</p>
-            </li>
-            
-            <li class="params-item">
-                <p class="params-text"><span class="params-title">Weight:</span>${res.data.weight}</p>
-            </li>
-            <li class="params-item">
-                <p class="params-text"><span class="params-title">BP:</span>${res.data.bp}</p>
-            </li>
+           ${infoHTML}
         </ul>
         <button class="cardExit">Вийти</button>
         `;
