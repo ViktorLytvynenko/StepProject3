@@ -137,6 +137,17 @@ color: #333;
     font-weight: 700;
     text-align: center;
 }
+.closeModal {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: 20px;
+    right: 15px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 8px;
+}
 .selectCreate{
     display: block;
     margin:0 auto;
