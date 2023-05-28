@@ -23,7 +23,7 @@ const postNewCard = () => {
 }
 
 const exitButton = () => {
-    closeModalButton = document.querySelector('#closeModalButton')
+    let closeModalButton = document.querySelector('#closeModalButton')
     closeModalButton.addEventListener('click', () => {
         modal.style.display = 'none'
     })

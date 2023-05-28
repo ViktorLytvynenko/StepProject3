@@ -189,7 +189,7 @@ const gettingData = () => {
                     <tr id="card${card.id}" class="cardID" data-id="${card.id}">
                         <td>${card.name}</td>
                         <td>${card.doctor}</td>
-                        <td>${card.description}</td>
+                        <td>${card.time}</td>
                         <td>
                             <button class="btn btn-info btnOpenCard" data-id="${card.id}"><i style="color: white" class="fa-solid fa-expand"></i></button>
                             <button class="btn btn-warning btnEditCard" data-id="${card.id}"><i style="color: white" class="fa-solid fa-pen-to-square"></i></button>
