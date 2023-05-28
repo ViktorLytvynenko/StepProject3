@@ -10,7 +10,6 @@ const openCard = (cardId) => {
       },
     })
     .then((res) => {
-      console.log(res.data);
       modelWindow.style.display = "block";
       let infoHTML = ''
       Object.entries(res.data).forEach(([name, value]) => {
@@ -20,7 +19,6 @@ const openCard = (cardId) => {
         </li>
         `
       });
-      console.log(infoHTML)
       modelWindow.innerHTML = `
       <h2 class="card-title">Картка пацієнта</h2>
         <ul class="card-params">

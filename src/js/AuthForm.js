@@ -161,7 +161,6 @@ const gettingData = () => {
             Authorization: `Bearer ${token}`
         }
     }).then(res => {
-        console.log(res.data)
         filter()
         if (res.data.length > 0) {
             //    Chenge button authentication
