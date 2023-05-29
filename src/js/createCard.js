@@ -1,5 +1,6 @@
 import instance from "./Assets/axiosInstances"
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import renderCards from "./renderCards";
 const modal = document.querySelector('.cardCreate')
 const postNewCard = () => {
     const token = localStorage.getItem("token");
@@ -9,17 +10,23 @@ const postNewCard = () => {
         }
     }
     const newCard = JSON.parse(localStorage.getItem("newCard"));
+    if (Number.isInteger(parseInt(newCard.bp))) {
     instance.post('/', newCard, config)
         .then((res) => {
             if (res.status == 200) {
                 modal.innerHTML = `
                     <p class="createTitle">Нова картка створена</p>
                 `
+                
                 setTimeout(() => {
+                    renderCards()
                     modal.style.display = 'none'
                 }, 2500)
             }
         })
+    } else { 
+        Notify.warning('Введіть правильний тиск')
+    }
 }
 
 const exitButton = () => {
@@ -132,6 +139,7 @@ const stemForm = (doctor) => {
         })
         localStorage.setItem('newCard', JSON.stringify(newCard))
         postNewCard()
+        
     })
 
     exitButton();
