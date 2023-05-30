@@ -285,8 +285,3 @@ nextStep()
 // вызываем localstorage
 form.email.value = getStorage("email")
 form.password.value = getStorage("password");
-
-
-/**
- * *jkcdcjn
- */
