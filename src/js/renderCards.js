@@ -7,6 +7,7 @@ import instance from './Assets/axiosInstances';
 import { createRecordsButton, exitButton } from './Assets/createRecondsBtn';
 
 const records = document.querySelector("#records");
+const logInButton = document.querySelector("#logInButton");
 
 const renderCards = () => {
     const token = localStorage.getItem("token");
@@ -16,7 +17,7 @@ const renderCards = () => {
         }
     }).then(res => {
         filter()
-        if (res.data.length > 0) {
+        if (res.data.length >= 0) {
             logInButton.innerHTML = `<p class="header_right_cabinet">Доброго дня!</p>
             <button class="header_right_exitButton" button-exit>Вийти</button>`
             document.querySelector("button[button-exit]").onclick = exitButton

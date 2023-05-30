@@ -8,7 +8,6 @@ import renderCards from "./renderCards";
 const buttonAuth = document.querySelector("#buttonAuth");
 const modalWindow = document.querySelector("#exampleModal");
 
-const logInButton = document.querySelector("#logInButton");
 const privatePolicy = document.querySelector("#privatePolicy");
 const agree = document.querySelector("#agree");
 const disagree = document.querySelector("#disagree");
