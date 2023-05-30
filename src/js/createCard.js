@@ -1,7 +1,20 @@
 import instance from "./Assets/axiosInstances"
-import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import {Notify} from 'notiflix/build/notiflix-notify-aio';
 import renderCards from "./renderCards";
+
 const modal = document.querySelector('.cardCreate')
+
+class Visit {
+    constructor(title, name, age, weight, bp, description) {
+        this.title = title;
+        this.name = name;
+        this.age = age;
+        this.weight = weight;
+        this.bp = bp;
+        this.description = description;
+    }
+}
+
 const postNewCard = () => {
     const token = localStorage.getItem("token");
     const config = {
@@ -10,22 +23,28 @@ const postNewCard = () => {
         }
     }
     const newCard = JSON.parse(localStorage.getItem("newCard"));
-    if (Number.isInteger(parseInt(newCard.bp))) {
-    instance.post('/', newCard, config)
-        .then((res) => {
-            if (res.status == 200) {
-                modal.innerHTML = `
+    if (!newCard.title) {
+        Notify.warning('Введіть назву')
+    }
+    if (!newCard.name) {
+        Notify.warning('Введіть ПІБ')
+    }
+    if (!Number.isInteger(parseInt(newCard.bp)) || !Number.isInteger(parseInt(newCard.weight)) || !Number.isInteger(parseInt(newCard.age))) {
+        Notify.warning('Введіть правильний тиск, вагу і вік')
+    } else {
+        instance.post('/', newCard, config)
+            .then((res) => {
+                if (res.status == 200) {
+                    modal.innerHTML = `
                     <p class="createTitle">Нова картка створена</p>
                 `
-                
-                setTimeout(() => {
-                    renderCards()
-                    modal.style.display = 'none'
-                }, 2500)
-            }
-        })
-    } else { 
-        Notify.warning('Введіть правильний тиск')
+
+                    setTimeout(() => {
+                        renderCards()
+                        modal.style.display = 'none'
+                    }, 2500)
+                }
+            })
     }
 }
 
@@ -36,49 +55,80 @@ const exitButton = () => {
     })
 }
 
+class SetCardiologist extends Visit {
+    constructor(title, name, age, weight, bp, description, contraindication, lastVisit) {
+        super(title, name, age, weight, bp, description);
+        this.contraindication = contraindication;
+        this.lastVisit = lastVisit;
+    }
 
-
-const setCardiologist = () => `
-    <li class="editItem">
+    static setForm() {
+        return `
+      <li class="editItem">
         <p class="editParam">Протипоказання</p>
         <input id="form" class="editInput" type="text" formName="contraindication" placeholder="Напишіть протипоказання">
-    </li>
-    <li class="editItem">
+      </li>
+      <li class="editItem">
         <p class="editParam">Дата останнього візиту</p>
         <input id="formTitle" class="editInput" type="date" formName="lastVisit" >
-    </li>
-`
-const setStomatolog = () => ` 
-    <li class="editItem">
+      </li>
+    `;
+    }
+}
+
+class SetStomatolog extends Visit {
+    constructor(title, name, age, weight, bp, description, phoneNumber, insurance) {
+        super(title, name, age, weight, bp, description);
+        this.phoneNumber = phoneNumber;
+        this.insurance = insurance;
+    }
+
+    static setForm() {
+        return `
+      <li class="editItem">
         <p class="editParam">Номер телефону</p>
         <input id="form" class="editInput" type="text" formName="phoneNumber" placeholder="Напишіть ваш номер телефону">
-    </li>
-    <li class="editItem">
+      </li>
+      <li class="editItem">
         <p class="editParam">Номер страхової картки</p>
         <input id="form" class="editInput" type="text" formName="insurance" placeholder="Напишіть номер строхової картки">
-    </li>
-`
-const setTerapevt = () => `
-    <li class="editItem">
+      </li>
+    `;
+    }
+}
+
+class SetTerapevt extends Visit {
+    constructor(title, name, age, weight, bp, description, address, conclusion) {
+        super(title, name, age, weight, bp, description);
+        this.address = address;
+        this.conclusion = conclusion;
+    }
+
+    static setForm() {
+        return `
+      <li class="editItem">
         <p class="editParam">Адрес</p>
         <input id="form" class="editInput" type="text" formName="address" placeholder="Напишіть ваш адрес проживання">
-    </li>
-    <li class="editItem">
+      </li>
+      <li class="editItem">
         <p class="editParam">Висновок</p>
         <input id="form" class="editInput" type="text" formName="conclusion" placeholder="Напишіть висновок">
-    </li>
-`
+      </li>
+    `;
+    }
+}
+
 const stemForm = (doctor) => {
     let doctorForm
     switch (doctor) {
         case 'cardiologist':
-            doctorForm = setCardiologist()
+            doctorForm = SetCardiologist.setForm()
             break;
         case 'stomatolog':
-            doctorForm = setStomatolog()
+            doctorForm = SetStomatolog.setForm()
             break;
         case 'terapevt':
-            doctorForm = setTerapevt()
+            doctorForm = SetTerapevt.setForm()
             break;
         default:
             doctorForm = '';
@@ -88,7 +138,7 @@ const stemForm = (doctor) => {
     <button id="closeModalButton" class="closeModal">X</button>
     <div class="cardCreate_body">
     <ul class="editList">
-       
+
         <li class="editItem">
             <p class="editParam">Назва</p>
             <input id="formTitle" class="editInput" type="text" formName="title" placeholder="Напишіть назву візиту">
@@ -134,12 +184,12 @@ const stemForm = (doctor) => {
         formArr.forEach((el) => {
             newCard = {
                 ...newCard,
-                [el.getAttribute('formName')]: el.value ? el.value : 'не заповнено'
+                [el.getAttribute('formName')]: el.value ? el.value : ''
             }
         })
         localStorage.setItem('newCard', JSON.stringify(newCard))
         postNewCard()
-        
+
     })
 
     exitButton();
@@ -189,7 +239,7 @@ const createCard = () => {
     <div class="cardCreate_body">
     <select id="changeDoctor" class="selectCreate selectItem">
         <option disabled value="none">Зробіть свій вибір</option>
-        <option selected value="cardiologist">Кардіолог</option>
+        <option value="cardiologist">Кардіолог</option>
         <option value="stomatolog">Стоматолог</option>
         <option value="terapevt">Терапевт</option>
     </select>
