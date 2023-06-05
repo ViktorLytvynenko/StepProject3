@@ -63,11 +63,6 @@ const back = () => {
     })
 }
 
-// выйти с меню
-const exitButton = () => {
-    window.location.reload()
-}
-
 //создаем кнопку на создание карточек
 const createRecordsButton = () => {
     if (document.querySelector("#recordsButton")) {
@@ -90,6 +85,13 @@ const greetings = () => {
         renderCards()
         gifka.style.display = "none";
     }, 2000);
+}
+
+//auto input via token
+
+let token = localStorage.getItem("token")
+if(token) {
+    renderCards()
 }
 
 // подтверждение создания карточки

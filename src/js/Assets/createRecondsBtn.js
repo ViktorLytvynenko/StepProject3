@@ -2,5 +2,6 @@ export const createRecordsButton = () => `<button id="recordsButton" class="head
 
 
 export const exitButton = () => {
+    localStorage.clear()
     window.location.reload()
 }
